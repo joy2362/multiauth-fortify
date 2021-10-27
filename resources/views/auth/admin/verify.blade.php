@@ -28,18 +28,18 @@
         <div class="col-md-4 p-3">
             <div class="card text-white bg-secondary">
                 <div class="card-header">
-                    <h4 class="text-info">User email verify</h4>
+                    <h4 class="text-info">Admin email verify</h4>
                     <div class="card-header">{{ __('Verify Your Email Address') }}</div>
                 </div>
                 <div class="card-body">
-                    @if (session('resent'))
+                    @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ __('A fresh verification link has been sent to your email address.') }}
                         </div>
                     @endif
                         {{ __('Before proceeding, please check your email for a verification link.') }}
                         {{ __('If you did not receive the email') }},
-                        <form class="d-inline" method="POST" action="{{ route('verification.send') }}">
+                        <form class="d-inline" method="POST" action="{{ route('admin.verification.send') }}">
                             @csrf
                             <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
                         </form>

@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', function () {
-    return view('home');
-})->name('home')->middleware('auth');
-
 //Route::get('/home', function () {
 //    return view('home');
-//})->name('home')->middleware('auth','verified');
+//})->name('home')->middleware('auth');
+
+Route::get('/home', function () {
+    return view('home');
+})->name('home')->middleware('auth','verified');
 
 Route::get('/profile/edit', function () {
     return view('profile');
