@@ -28,10 +28,10 @@
         <div class="col-md-4 p-3">
             <div class="card text-white bg-secondary">
                 <div class="card-header">
-                    <h1 class="text-info">User registration</h1>
+                    <h4 class="text-info">Admin registration</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('admin.register') }}">
                         @csrf
                         <div class="form-group row mb-4">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>

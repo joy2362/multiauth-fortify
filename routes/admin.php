@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -22,6 +23,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('adminHome');
     })->name('home')->middleware('auth:admin');
 
+    Route::view('/register','auth.admin.registation')->middleware( 'guest:admin')
+        ->name('register');;
+
+    Route::post('/register', [RegisteredUserController::class, 'store'])
+        ->middleware('guest:admin');
 
 });
 

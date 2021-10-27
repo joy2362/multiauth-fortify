@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Admin extends Authenticatable implements MustVerifyEmail
+class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable;
 
