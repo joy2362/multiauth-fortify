@@ -28,7 +28,7 @@
         <div class="col-md-4 p-3">
             <div class="card text-white bg-secondary">
                 <div class="card-header">
-                    <h4 class="text-info">User Forget password</h4>
+                    <h4 class="text-info">Admin Forget password</h4>
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -36,7 +36,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('admin.password.email') }}">
                         @csrf
 
                         <div class="form-group row mb-4">

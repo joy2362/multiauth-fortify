@@ -28,10 +28,10 @@
         <div class="col-md-4 p-3">
             <div class="card text-white bg-secondary">
                 <div class="card-header">
-                    <h4 class="text-info">User reset password</h4>
+                    <h4 class="text-info">Admin reset password</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
+                    <form method="POST" action="{{ route('admin.password.update') }}">
                         @csrf
 
                         <input type="hidden" name="token" value="{{ request()->token }}">
