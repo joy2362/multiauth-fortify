@@ -28,4 +28,4 @@ Route::get('/profile/edit', function () {
     return view('profile');
 })->middleware('auth')->name('user.profile');
 
-Route::view('password/change','password_change')->middleware('auth');
+Route::view('password/change','password_change')->middleware('auth')->name('user.password.change');

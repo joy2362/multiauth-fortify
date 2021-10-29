@@ -1,10 +1,18 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
+use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
 use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
+use Laravel\Fortify\Http\Controllers\PasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
+use Laravel\Fortify\Http\Controllers\ProfileInformationController;
+use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
+use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
 use Laravel\Fortify\Http\Controllers\VerifyEmailController;
 
 
@@ -66,5 +74,61 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware(['guest:admin'])
         ->name('password.update');
 
+    Route::get('/profile/edit', function () {
+        return view('adminProfile');
+    })->middleware('auth:admin')->name('profile');
+
+    //update user information
+    Route::put('/user/profile-information', [ProfileInformationController::class, 'update'])
+        ->middleware(['auth:'.config('fortify.guard')])
+        ->name('user-profile-information.update');
+
+    Route::view('password/change','adminPassword_change')
+        ->middleware('auth:admin')
+        ->name('password.change');
+
+    // Passwords...
+        Route::put('/password', [PasswordController::class, 'update'])
+            ->middleware(['auth:'.config('fortify.guard')])
+            ->name('user-password.update');
+
+    Route::view('/confirm-password','auth.admin.password.confirm')
+        ->middleware('auth:admin')
+        ->name('password.confirm');
+
+
+    Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store'])
+        ->middleware(['auth:'.config('fortify.guard')]);
+
+
+    Route::view('/two-factor-challenge','auth.admin.twoFactorChallenge')
+        ->middleware('auth:admin',)
+        ->name('two-factor.login');
+
+    $twoFactorLimiter = config('fortify.limiters.two-factor');
+    Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])
+        ->middleware(array_filter([
+            'guest:'.config('fortify.guard'),
+            $twoFactorLimiter ? 'throttle:'.$twoFactorLimiter : null,
+        ]));
+
+    Route::post('/two-factor-authentication', [TwoFactorAuthenticationController::class, 'store'])
+        ->middleware(['auth:admin','password.confirm:admin.password.confirm' ])
+        ->name('two-factor.enable');
+
+    Route::delete('/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])
+        ->middleware(['auth:'.config('fortify.guard'),'password.confirm:admin.password.confirm'])
+        ->name('two-factor.disable');
+
+//    Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])
+//        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
+//        ->name('two-factor.qr-code');
+//
+//    Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])
+//        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
+//        ->name('two-factor.recovery-codes');
+
+    Route::post('/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])
+        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm:admin.password.confirm']);
 });
 

@@ -28,19 +28,25 @@
         <div class="col-md-4 p-3">
             <div class="card text-white bg-secondary">
                 <div class="card-header">
-                    <h4 class="text-info">Admin Two factor Challenge</h4>
+                    <h4 class="text-info">User change password</h4>
                 </div>
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.two-factor.login') }}">
+                    <form method="POST" action="{{ route('admin.user-password.update') }}">
                         @csrf
-                        {{ __('Please Insert Two step Verification code to continue') }}
-                        <div class="form-group row mb-4 mt-2">
-                            <label for="code" class="col-md-4 col-form-label text-md-right">{{ __('Code') }}</label>
+                        @method('put')
 
-                            <div class="col-md-6 ">
-                                <input id="code" type="text" class="form-control @error('code') is-invalid @enderror" name="code" required>
+                        <div class="form-group row mb-4">
+                            <label for="current_password" class="col-md-4 col-form-label text-md-right">{{ __('Current Password') }}</label>
 
-                                @error('code')
+                            <div class="col-md-6">
+                                <input id="current_password" type="password" class="form-control @error('current_password','updatePassword') is-invalid @enderror" name="current_password" value="" required autofocus>
+
+                                @error('current_password','updatePassword')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -49,35 +55,12 @@
                         </div>
 
                         <div class="form-group row mb-4">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Proceed') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
-    <div class="row justify-content-center">
-        <div class="col-md-4 p-3">
-            <div class="card text-white bg-secondary">
-                <div class="card-header">
-                    <h4 class="text-info">Admin Two factor Recovery</h4>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('two-factor.login') }}">
-                        @csrf
-                        {{ __('Please Insert Recovery code to continue') }}
-                        <div class="form-group row mb-4 mt-2">
-                            <label for="recovery_code" class="col-md-4 col-form-label text-md-right">{{ __('recovery code') }}</label>
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password','updatePassword') is-invalid @enderror" name="password" required autocomplete="new-password">
 
-                            <div class="col-md-6 ">
-                                <input id="recovery_code" type="text" class="form-control @error('recovery_code') is-invalid @enderror" name="recovery_code" required>
-
-                                @error('recovery_code')
+                                @error('password','updatePassword')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -86,10 +69,20 @@
                         </div>
 
                         <div class="form-group row mb-4">
-                            <div class="col-md-8 offset-md-4">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Proceed') }}
+                                    {{ __('Update Password') }}
+
                                 </button>
+                                <a href="{{route('admin.home')}}">home</a>
                             </div>
                         </div>
                     </form>

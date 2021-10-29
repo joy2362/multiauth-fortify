@@ -30,10 +30,11 @@
             Welcome {{ Auth::user()->name }}. Current guard {{Auth::getDefaultDriver()}}
             <br>
             <a href="{{route('user.profile')}}">Edit profile</a>
-            <form method="POST" action="{{ route('admin.logout')  }}">
+            <a href="{{route('user.password.change')}}">Change Password</a>
+            <form method="POST" action="{{ route('logout')  }}">
                 @csrf
 
-                <a href="{{route('admin.logout')}} "
+                <a href="{{route('logout')}} "
                    onclick="event.preventDefault();
                                 this.closest('form').submit();">
                     {{ __('Log Out') }}
@@ -41,6 +42,51 @@
             </form>
         </div>
         <div class="col-md-4"></div>
+    </div>
+
+    <div class="row mt-12">
+        <div class="col-md-12">
+            <h4>Two step verification</h4>
+            @if (session('status') == 'two-factor-authentication-enabled')
+                <div class="m-4 alert alert-success" role="alert">
+                    Two factor authentication has been enabled.
+                </div>
+            @endif
+            @if (session('status') == 'two-factor-authentication-disabled')
+                <div class="m-4 alert alert-danger" role="alert">
+                    Two factor authentication has been disabled.
+                </div>
+            @endif
+            @if(Auth::user()->two_factor_secret)
+
+                <div class="m-4">
+                    <p>Currently two factor verification is enable. here is your qr code</p>
+                    {!! Auth::user()->twoFactorQrCodeSvg()  !!}
+                </div>
+                <div class="m-4">
+                    <p>Recovery code</p>
+                    <ul>
+                        @foreach(json_decode(decrypt(auth()->user()->two_factor_recovery_codes)) as $code)
+                            <li>{{$code}}</li>
+                        @endforeach
+                    </ul>
+
+                </div>
+
+            @else
+                <p>Currently two factor verification is disable</p>
+            @endif
+
+            <form action="{{url('admin/two-factor-authentication')}}" method="post">
+                @csrf
+                @if(Auth::user()->two_factor_secret)
+                    @method('delete')
+                    <button class="btn btn-danger">Disable</button>
+                @else
+                    <button class="btn btn-primary">Enable</button>
+                @endif
+            </form>
+        </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
