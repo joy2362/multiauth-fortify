@@ -36,7 +36,7 @@
                     </div>
                 @endif
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.user-profile-information.update') }}">
+                    <form method="POST" action="{{ route('admin.profile-information.update') }}">
                         @csrf
                         @method('put')
                         <div class="form-group row mb-4">

@@ -36,7 +36,7 @@
                     </div>
                 @endif
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.user-password.update') }}">
+                    <form method="POST" action="{{ route('admin.password.update') }}">
                         @csrf
                         @method('put')
 

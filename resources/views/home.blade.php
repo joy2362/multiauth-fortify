@@ -30,6 +30,7 @@
            Welcome {{ Auth::user()->name }}. Current guard {{Auth::getDefaultDriver()}}
             <br>
             <a href="{{route('user.profile')}}">Edit profile</a>
+            <a href="{{route('user.password.change')}}">Change Password</a>
             <form method="POST" action="{{ route('logout')  }}">
                 @csrf
 

@@ -29,8 +29,9 @@
         <div class="col-md-4 ">
             Welcome {{ Auth::user()->name }}. Current guard {{Auth::getDefaultDriver()}}
             <br>
-            <a href="{{route('user.profile')}}">Edit profile</a>
-            <a href="{{route('user.password.change')}}">Change Password</a>
+            <a href="{{route('admin.profile')}}">Edit profile</a>
+            <a href="{{route('admin.password.change')}}">Change Password</a>
+
             <form method="POST" action="{{ route('logout')  }}">
                 @csrf
 
