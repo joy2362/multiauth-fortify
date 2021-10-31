@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Http\Responses\FailedTwoFactorLoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,13 @@ class FortifyServiceProvider extends ServiceProvider
             config() ->set('fortify.home','admin/home');
             config() ->set('fortify.passwords','admins');
         }
+
+        $this->app->instance(FailedTwoFactorLoginResponse::class, new class extends FailedTwoFactorLoginResponse {
+            public function toResponse($request)
+            {
+                return redirect('/admin/login');
+            }
+        });
     }
 
     /**
