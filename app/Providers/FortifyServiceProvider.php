@@ -30,13 +30,6 @@ class FortifyServiceProvider extends ServiceProvider
             config() ->set('fortify.home','admin/home');
             config() ->set('fortify.passwords','admins');
         }
-
-        $this->app->instance(FailedTwoFactorLoginResponse::class, new class extends FailedTwoFactorLoginResponse {
-            public function toResponse($request)
-            {
-                return redirect('/admin/login');
-            }
-        });
     }
 
     /**
@@ -85,14 +78,21 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.user.twoFactorChallenge');
         });
 
-//        Fortify::authenticateUsing(function (Request $request) {
-//            $user = Admin::where('email', $request->email)->first();
-//
-//            if ($user &&
-//                Hash::check($request->password, $user->password)) {
-//                return $user;
-//            }
-//        });
+
+        if (request()->is('admin/*')) {
+            $this->app->singleton(
+                \Laravel\Fortify\Contracts\PasswordResetResponse::class,
+                \App\Http\Responses\PasswordResetResponse::class
+            );
+
+            $this->app->singleton(
+                \Laravel\Fortify\Contracts\FailedTwoFactorLoginResponse::class,
+                \App\Http\Responses\FailedTwoFactorLoginResponse::class
+            );
+
+        }
+
+
 
     }
 }

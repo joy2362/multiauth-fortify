@@ -94,7 +94,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::put('/password', [PasswordController::class, 'update'])
         ->middleware(['auth:'.config('fortify.guard')])
-        ->name('password.update');
+        ->name('password.update.put');
 
 
     //confirm password
@@ -126,15 +126,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->middleware(['auth:'.config('fortify.guard'),'password.confirm:admin.password.confirm'])
         ->name('two-factor.disable');
 
-//    Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])
-//        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
-//        ->name('two-factor.qr-code');
-//
-//    Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])
-//        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
-//        ->name('two-factor.recovery-codes');
+    Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])
+        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
+        ->name('two-factor.qr-code');
 
-//    Route::post('/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])
-//        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm:admin.password.confirm']);
+    Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])
+        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
+        ->name('two-factor.recovery-codes');
+
+    Route::post('/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])
+        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm:admin.password.confirm']);
 });
 

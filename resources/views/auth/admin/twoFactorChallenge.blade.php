@@ -68,7 +68,7 @@
                     <h4 class="text-info">Admin Two factor Recovery</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('two-factor.login') }}">
+                    <form method="POST" action="{{ route('admin.two-factor.login') }}">
                         @csrf
                         {{ __('Please Insert Recovery code to continue') }}
                         <div class="form-group row mb-4 mt-2">
