@@ -6,6 +6,7 @@ class PasswordResetResponse implements PasswordResetResponseContract
 {
     public function toResponse($request)
     {
+        //dd($request);
         return redirect(route('admin.login'));
     }
 }
