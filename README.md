@@ -24,5 +24,6 @@ This is a simple laravel project for multi-guard authentication using laravel-fo
 2. Run composer install
 3. Run cp .env.example .env or copy .env.example .env
 4. Run php artisan key:generate
-5. Run php artisan migrate
-6. Run php artisan serve
+5. create database multiauth_fortify
+6. Run php artisan migrate
+7. Run php artisan serve
