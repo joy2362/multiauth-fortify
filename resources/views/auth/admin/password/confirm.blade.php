@@ -31,14 +31,14 @@
                     <h4 class="text-info">Admin Change password</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.password.confirm') }}">
+                    <form  action="{{ route('admin.password.confirm') }}" method="POST">
                         @csrf
 
                         <div class="form-group row mb-4">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6 ">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="form-control" name="password" required >
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -54,11 +54,6 @@
                                     {{ __('Confirm Password') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </form>

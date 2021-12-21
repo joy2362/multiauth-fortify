@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/home', function () {
     return view('home');
-})->name('home')->middleware('auth','verified');
+})->name('home')->middleware('auth:web','verified');
 
 Route::get('/profile/edit', function () {
     return view('profile');

@@ -35,7 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     //dashboard
     Route::get('/home', function () {
         return view('adminHome');
-    })->name('home')->middleware('auth:admin','verified');
+    })->name('home')->middleware('auth:admin','verified:admin.verification.notice');
 
         //registration
     Route::view('/register','auth.admin.registation')->middleware( 'guest:admin')
@@ -82,7 +82,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     })->middleware('auth:admin')->name('profile');
 
     Route::put('/profile-information', [ProfileInformationController::class, 'update'])
-        ->middleware(['auth:'.config('fortify.guard')])
+        ->middleware(['auth:admin'])
         ->name('profile-information.update');
 
 
@@ -104,7 +104,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
     Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store'])
-        ->middleware(['auth:'.config('fortify.guard')]);
+        ->middleware(['auth:admin']);
 
 
     Route::view('/two-factor-challenge','auth.admin.twoFactorChallenge')
@@ -114,7 +114,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     $twoFactorLimiter = config('fortify.limiters.two-factor');
     Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])
         ->middleware(array_filter([
-            'guest:'.config('fortify.guard'),
+            'guest:admin',
             $twoFactorLimiter ? 'throttle:'.$twoFactorLimiter : null,
         ]));
 
@@ -123,18 +123,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->name('two-factor.enable');
 
     Route::delete('/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])
-        ->middleware(['auth:'.config('fortify.guard'),'password.confirm:admin.password.confirm'])
+        ->middleware(['auth:admin','password.confirm:admin.password.confirm'])
         ->name('two-factor.disable');
 
     Route::get('/user/two-factor-qr-code', [TwoFactorQrCodeController::class, 'show'])
-        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
+        ->middleware(['auth:admin', 'password.confirm'])
         ->name('two-factor.qr-code');
 
     Route::get('/user/two-factor-recovery-codes', [RecoveryCodeController::class, 'index'])
-        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm'])
+        ->middleware(['auth:admn', 'password.confirm'])
         ->name('two-factor.recovery-codes');
 
     Route::post('/two-factor-recovery-codes', [RecoveryCodeController::class, 'store'])
-        ->middleware(['auth:'.config('fortify.guard'), 'password.confirm:admin.password.confirm']);
+        ->middleware(['auth:admin', 'password.confirm:admin.password.confirm']);
 });
 

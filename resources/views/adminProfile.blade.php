@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.profile-information.update') }}">
                         @csrf
-                        @method('put')
+                       @method('put')
                         <div class="form-group row mb-4">
 
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>

@@ -93,6 +93,11 @@ class FortifyServiceProvider extends ServiceProvider
                 \App\Http\Responses\FailedTwoFactorLoginResponse::class
             );
 
+            $this->app->singleton(
+                \Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable::class,
+                \App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable::class
+            );
+
         }
 
 

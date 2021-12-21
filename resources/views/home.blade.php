@@ -27,7 +27,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4"></div>
         <div class="col-md-4 ">
-           Welcome {{ Auth::user()->name }}. Current guard {{Auth::getDefaultDriver()}}
+           Welcome user {{ Auth::user()->name }}. Current guard {{Auth::getDefaultDriver()}}
             <br>
             <a href="{{route('user.profile')}}">Edit profile</a>
             <a href="{{route('user.password.change')}}">Change Password</a>
